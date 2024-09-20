@@ -23,12 +23,10 @@ export enum FormFieldType {
   SKELETON = 'skeleton',
 }
 
-
-
 const PatientForm = () => {
-const router = useRouter();
+  const router = useRouter();
 
-const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   // 1. Define your form.
   const form = useForm<z.infer<typeof UserFormValidation>>({
     resolver: zodResolver(UserFormValidation),
@@ -40,21 +38,23 @@ const [isLoading, setIsLoading] = useState(false);
   });
 
   // 2. Define a submit handler.
-  async function onSubmit({name, email, phone}: z.infer<typeof UserFormValidation>) {
+  async function onSubmit({
+    name,
+    email,
+    phone,
+  }: z.infer<typeof UserFormValidation>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setIsLoading(true);
 
     try {
-      
-      const userData = {name, email, phone};
+      const userData = { name, email, phone };
 
       const user = await createUser(userData);
 
       if (user) router.push(`/patients/${user.$id}/register`);
     } catch (error) {
       console.log(error);
-      
     }
   }
   return (
@@ -85,16 +85,14 @@ const [isLoading, setIsLoading] = useState(false);
           iconAlt='email'
         />
 
-<CustomFormField
+        <CustomFormField
           fieldType={FormFieldType.PHONE_INPUT}
           control={form.control}
           name='phone'
           label='Phone Number'
           placeholder='(+91) 9999-999999'
         />
-<SubmitButton isLoading={isLoading} >
-Get Started
-</SubmitButton>
+        <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
     </Form>
   );

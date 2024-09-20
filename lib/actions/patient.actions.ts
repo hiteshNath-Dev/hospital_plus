@@ -1,3 +1,5 @@
+'use server';
+
 import { ID, Query } from 'node-appwrite';
 import { users } from '../appwrite.config';
 import { parseStringify } from '../utils';
@@ -16,6 +18,8 @@ export const createUser = async (user: CreateUserParams) => {
 
     return parseStringify(newUser);
   } catch (error: any) {
+    console.log('Error while creating user ------> ' + error);
+
     if (error && error?.code === 409) {
       const documents = await users.list([Query.equal('email', [user.email])]);
 
